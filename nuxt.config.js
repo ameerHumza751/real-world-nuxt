@@ -1,3 +1,4 @@
+import EventService from "./services/EventService.js";
 
 export default {
   mode: 'universal',
@@ -57,9 +58,19 @@ export default {
     extend(config, ctx) {
     }
   },
-
-  server: {
-    port: 8000, // default: 3000
-    host: 'localhost' // default: localhost
+  //server config
+  // server: {
+  //   port: 8000, // default: 3000
+  //   host: 'localhost' // default: localhost
+  // },
+  //static generator config
+  generate: {
+    routes: () => {
+      return EventService.getEvents().then(res => {
+        return res.data.map(event => {
+          return '/event/' + event.id
+        })
+      })
+    }
   }
 }
